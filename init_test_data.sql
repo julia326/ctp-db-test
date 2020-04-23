@@ -9,7 +9,7 @@ CREATE TABLE geography (
 
 CREATE TABLE batch (
     batch_id INT NOT NULL AUTO_INCREMENT,
-    push_time DATETIME,
+    push_time timestamptz,
     shift_lead VARCHAR(100),
     commit_note VARCHAR,
     is_daily_commit BOOLEAN,
@@ -19,8 +19,8 @@ CREATE TABLE batch (
 
 CREATE TABLE state_data (
     state VARCHAR(50),
-    last_update_time DATETIME,
-    last_check_time DATETIME,
+    last_update_time timestamptz,
+    last_check_time timestamptz,
     data_date DATE,  -- the day we mean to report this data for; meant for "states daily" extraction
     tests INT,
     -- additional cols for positives, negatives, hospitalization data, etc...
