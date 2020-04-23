@@ -2,27 +2,33 @@ USE data;
 
 -- Create initial tables
 
+CREATE TABLE geography (
+    geography_id INT NOT NULL AUTO_INCREMENT,
+    -- XXX: not sure if we should use a geography_id in contemplation of potential future additions or just state abbreviations for now
+);
+
 CREATE TABLE batch (
     batch_id INT NOT NULL AUTO_INCREMENT,
     push_time DATETIME,
     shift_lead VARCHAR(100),
-    commit_note VARCHAR(255),
-    daily_commit BOOLEAN,
+    commit_note VARCHAR,
+    is_daily_commit BOOLEAN,
     is_preview BOOLEAN,
     PRIMARY KEY (batch_id)
 );
 
-CREATE TABLE states (
+CREATE TABLE state_data (
     state VARCHAR(50),
     last_update_time DATETIME,
     last_check_time DATETIME,
     data_date DATE,  -- the day we mean to report this data for; meant for "states daily" extraction
     tests INT,
+    -- additional cols for positives, negatives, hospitalization data, etc...
     checker VARCHAR(100),
     double_checker VARCHAR(100),
-    public_notes VARCHAR(255),
-    private_notes VARCHAR(255),  -- from worksheet, "Notes" column (made by checker or doublechecker)
-    source_notes VARCHAR(255), -- from state matrix: which columns?
+    public_notes VARCHAR,
+    private_notes VARCHAR,  -- from worksheet, "Notes" column (made by checker or doublechecker)
+    source_notes VARCHAR, -- from state matrix: which columns?
     batch_id INT,
     CONSTRAINT `fk_batch`
       FOREIGN KEY (batch_id) REFERENCES batch(batch_id)
