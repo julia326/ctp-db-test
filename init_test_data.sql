@@ -2,31 +2,37 @@ USE data;
 
 -- Create initial tables
 
-CREATE TABLE batch (
-    batch_id INT NOT NULL AUTO_INCREMENT,
-    push_time DATETIME,
-    shift_lead VARCHAR(100),
-    commit_note VARCHAR(255),
-    daily_commit BOOLEAN,
-    is_preview BOOLEAN,
-    PRIMARY KEY (batch_id)
+CREATE TABLE state (
+    state_name char(2) primary key not null,
+    full_name varchar not null
+    -- can hold population, density, coordinates, other data as needed in the future
 );
 
-CREATE TABLE states (
-    state VARCHAR(50),
-    last_update_time DATETIME,
-    last_check_time DATETIME,
-    data_date DATE,  -- the day we mean to report this data for; meant for "states daily" extraction
+CREATE TABLE batch (
+    batch_id serial primary key,
+    created_at timestamptz not null,
+    published_at timestamptz,
+    shift_lead VARCHAR(100),
+    batch_note VARCHAR,
+    is_daily_commit BOOLEAN not null,
+    is_preview BOOLEAN not null,
+    is_revision BOOLEAN not null
+);
+
+CREATE TABLE core_data (
+    state_name int references state(state_name) not null,
+    last_update_time timestamptz not null,
+    last_check_time timestamptz not null,
+    data_date DATE not null,  -- the day we mean to report this data for; meant for "states daily" extraction
     tests INT,
+    -- additional cols for positives, negatives, hospitalization data, etc...
     checker VARCHAR(100),
     double_checker VARCHAR(100),
-    public_notes VARCHAR(255),
-    private_notes VARCHAR(255),  -- from worksheet, "Notes" column (made by checker or doublechecker)
-    source_notes VARCHAR(255), -- from state matrix: which columns?
-    batch_id INT,
-    CONSTRAINT `fk_batch`
-      FOREIGN KEY (batch_id) REFERENCES batch(batch_id)
-      ON DELETE NO ACTION
+    public_notes VARCHAR,
+    private_notes VARCHAR,  -- from worksheet, "Notes" column (made by checker or doublechecker)
+    source_notes VARCHAR, -- from state matrix: which columns?
+    batch_id INT references batch(batch_id),
+    -- should have a primary key on what? (geography_id, batch_id) ?
 );
 
 /* non-daily batch */
