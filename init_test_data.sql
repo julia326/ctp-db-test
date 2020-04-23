@@ -11,15 +11,16 @@ CREATE TABLE geography (
 CREATE TABLE batch (
     batch_id serial primary key,
     push_time timestamptz not null,
+    publish_time timestamptz,
     shift_lead VARCHAR(100),
     commit_note VARCHAR,
     is_daily_commit BOOLEAN not null,
     is_preview BOOLEAN not null,
-    is_revision boolean not null
+    is_revision BOOLEAN not null
     PRIMARY KEY (batch_id)
 );
 
-CREATE TABLE state_data (
+CREATE TABLE core_data (
     geography_id int references geography(geography_id) not null,
     last_update_time timestamptz not null,
     last_check_time timestamptz not null,
