@@ -3,24 +3,26 @@ USE data;
 -- Create initial tables
 
 CREATE TABLE geography (
-    geography_id INT NOT NULL AUTO_INCREMENT,
-    -- XXX: not sure if we should use a geography_id in contemplation of potential future additions or just state abbreviations for now
+    geography_id serial primary key,
+    abreviation char(2),
+    full_name varchar not null
 );
 
 CREATE TABLE batch (
-    batch_id INT NOT NULL AUTO_INCREMENT,
-    push_time timestamptz,
+    batch_id serial primary key,
+    push_time timestamptz not null,
     shift_lead VARCHAR(100),
     commit_note VARCHAR,
-    is_daily_commit BOOLEAN,
-    is_preview BOOLEAN,
+    is_daily_commit BOOLEAN not null,
+    is_preview BOOLEAN not null,
+    is_revision boolean not null
     PRIMARY KEY (batch_id)
 );
 
 CREATE TABLE state_data (
-    state VARCHAR(50),
-    last_update_time timestamptz,
-    last_check_time timestamptz,
+    geography_id int references geography(geography_id) not null,
+    last_update_time timestamptz not null,
+    last_check_time timestamptz not null,
     data_date DATE,  -- the day we mean to report this data for; meant for "states daily" extraction
     tests INT,
     -- additional cols for positives, negatives, hospitalization data, etc...
@@ -29,10 +31,8 @@ CREATE TABLE state_data (
     public_notes VARCHAR,
     private_notes VARCHAR,  -- from worksheet, "Notes" column (made by checker or doublechecker)
     source_notes VARCHAR, -- from state matrix: which columns?
-    batch_id INT,
-    CONSTRAINT `fk_batch`
-      FOREIGN KEY (batch_id) REFERENCES batch(batch_id)
-      ON DELETE NO ACTION
+    batch_id INT references batch(batch_id),
+    -- should have a primary key on what? (geography_id, batch_id) ?
 );
 
 /* non-daily batch */
