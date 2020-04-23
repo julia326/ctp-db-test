@@ -24,7 +24,7 @@ CREATE TABLE core_data (
     geography_id int references geography(geography_id) not null,
     last_update_time timestamptz not null,
     last_check_time timestamptz not null,
-    data_date DATE,  -- the day we mean to report this data for; meant for "states daily" extraction
+    data_date DATE not null,  -- the day we mean to report this data for; meant for "states daily" extraction
     tests INT,
     -- additional cols for positives, negatives, hospitalization data, etc...
     checker VARCHAR(100),
