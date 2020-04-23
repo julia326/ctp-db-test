@@ -4,7 +4,7 @@ USE data;
 
 CREATE TABLE geography (
     geography_id serial primary key,
-    abreviation char(2),
+    abbreviation char(2),
     full_name varchar not null
 );
 
