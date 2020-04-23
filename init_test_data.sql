@@ -2,26 +2,25 @@ USE data;
 
 -- Create initial tables
 
-CREATE TABLE geography (
-    geography_id serial primary key,
-    abbreviation char(2),
+CREATE TABLE state (
+    state_name char(2) primary key not null,
     full_name varchar not null
+    -- can hold population, density, coordinates, other data as needed in the future
 );
 
 CREATE TABLE batch (
     batch_id serial primary key,
-    push_time timestamptz not null,
-    publish_time timestamptz,
+    created_at timestamptz not null,
+    published_at timestamptz,
     shift_lead VARCHAR(100),
-    commit_note VARCHAR,
+    batch_note VARCHAR,
     is_daily_commit BOOLEAN not null,
     is_preview BOOLEAN not null,
     is_revision BOOLEAN not null
-    PRIMARY KEY (batch_id)
 );
 
 CREATE TABLE core_data (
-    geography_id int references geography(geography_id) not null,
+    state_name int references state(state_name) not null,
     last_update_time timestamptz not null,
     last_check_time timestamptz not null,
     data_date DATE not null,  -- the day we mean to report this data for; meant for "states daily" extraction
