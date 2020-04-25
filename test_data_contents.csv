@@ -1,0 +1,16 @@
+"state_name","last_update_time","last_check_time","data_date","tests","checker","double_checker","public_notes","private_notes","source_notes","batch_id","batch_id-2","created_at","published_at","shift_lead","batch_note","is_daily_commit","is_published","is_revision"
+"NY","2020-03-20 00:00:00+00","2020-03-20 09:56:00+00","2020-03-20",168,"JK",NULL,"NY morning",NULL,NULL,9,9,"2020-03-20 10:00:00+00",NULL,"JK","3/20 morning",False,True,False
+"PA","2020-03-20 00:00:00+00","2020-03-20 09:55:00+00","2020-03-20",130,"JK",NULL,"PA morning",NULL,NULL,9,9,"2020-03-20 10:00:00+00",NULL,"JK","3/20 morning",False,True,False
+"NY","2020-03-20 14:00:00+00","2020-03-20 14:56:00+00","2020-03-20",170,"JK",NULL,"NY afternoon",NULL,NULL,10,10,"2020-03-20 15:00:00+00",NULL,"JK","3/20 afternoon, daily",True,True,False
+"PA","2020-03-20 14:00:00+00","2020-03-20 14:55:00+00","2020-03-20",131,"JK",NULL,"PA afternoon",NULL,NULL,10,10,"2020-03-20 15:00:00+00",NULL,"JK","3/20 afternoon, daily",True,True,False
+"NY","2020-03-20 17:00:00+00","2020-03-20 17:56:00+00","2020-03-20",175,"JK",NULL,"NY night",NULL,NULL,11,11,"2020-03-20 20:00:00+00",NULL,"JK","3/20 night",False,True,False
+"PA","2020-03-20 17:00:00+00","2020-03-20 17:55:00+00","2020-03-20",135,"JK",NULL,"PA night",NULL,NULL,11,11,"2020-03-20 20:00:00+00",NULL,"JK","3/20 night",False,True,False
+"NY","2020-03-21 00:00:00+00","2020-03-21 07:55:00+00","2020-03-20",175,"JK",NULL,"Missed 5 tests in NY for 3/20 daily",NULL,NULL,12,12,"2020-03-21 08:00:00+00",NULL,"JK","Missed 5 tests in NY on 3/20",True,True,True
+"NY","2020-03-21 00:00:00+00","2020-03-21 09:56:00+00","2020-03-21",190,"JK",NULL,"NY morning",NULL,NULL,13,13,"2020-03-21 10:00:00+00",NULL,"JK","3/21 morning",False,True,False
+"PA","2020-03-21 00:00:00+00","2020-03-21 09:55:00+00","2020-03-21",140,"JK",NULL,"PA morning",NULL,NULL,13,13,"2020-03-21 10:00:00+00",NULL,"JK","3/21 morning",False,True,False
+"NY","2020-03-21 14:00:00+00","2020-03-21 14:56:00+00","2020-03-21",200,"JK",NULL,"NY afternoon",NULL,NULL,14,14,"2020-03-21 15:00:00+00",NULL,"JK","3/21 afternoon, daily",True,True,False
+"PA","2020-03-21 14:00:00+00","2020-03-21 14:55:00+00","2020-03-21",150,"JK",NULL,"PA afternoon",NULL,NULL,14,14,"2020-03-21 15:00:00+00",NULL,"JK","3/21 afternoon, daily",True,True,False
+"NY","2020-03-21 17:00:00+00","2020-03-21 17:56:00+00","2020-03-21",210,"JK",NULL,"NY afternoon",NULL,NULL,15,15,"2020-03-21 20:00:00+00",NULL,"JK","3/21 night",False,False,False
+"PA","2020-03-21 17:00:00+00","2020-03-21 17:55:00+00","2020-03-21",160,"JK",NULL,"PA afternoon",NULL,NULL,15,15,"2020-03-21 20:00:00+00",NULL,"JK","3/21 night",False,False,False
+"NY","2020-03-21 17:00:00+00","2020-03-21 17:56:00+00","2020-03-21",210,"JK",NULL,"NY afternoon",NULL,NULL,16,16,"2020-03-21 20:05:00+00",NULL,"JK","3/21 night",False,False,False
+"PA","2020-03-21 17:00:00+00","2020-03-21 17:55:00+00","2020-03-21",170,"JK",NULL,"PA afternoon",NULL,NULL,16,16,"2020-03-21 20:05:00+00",NULL,"JK","3/21 night",False,False,False
