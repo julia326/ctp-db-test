@@ -1,29 +1,65 @@
-USE data;
+/* Get the most-recently-correct DAILY batch for each state, for 3/20. (Respects historical edits, takes latest batch_id) */
+SELECT state_name, MAX(core_data.batch_id) as max_bid
+	FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+    WHERE data_date = '2020-03-20' AND batch.is_daily_commit = True AND batch.is_published = TRUE
+    GROUP BY state_name;
+	
+/* Get the most-recently-correct DAILY batch for each state, for all dates. (Respects historical edits, takes latest batch_id) */
+SELECT state_name, data_date, MAX(core_data.batch_id) as max_bid
+	FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+    WHERE batch.is_daily_commit = True AND batch.is_published = TRUE
+	GROUP BY state_name, data_date;
 
-/* Gets the latest DAILY batch for each state, for the given data date. */
-SELECT state, MAX(states.batch_id) as max_bid
-	FROM states JOIN batch ON states.batch_id = batch.batch_id
-    WHERE data_date = '2020-03-20' AND batch.daily_commit = True
-    GROUP BY state;
-    
--- What were all states on date Z? For this example, say Z is 2020-03-20.
+/* Latest preview batch? */
+SELECT MAX(batch_id) as max_bid FROM batch WHERE batch.is_published = FALSE;
+	
+/* What is our info for all states on 3/20? */
 /* Get the latest DAILY data for 2020-03-20 by state. This incorporates historical edits, showing the latest one. (Expected: NY 175, PA 131.) */
 SELECT * FROM (
-	SELECT state, MAX(states.batch_id) as max_bid
-		FROM states JOIN batch ON states.batch_id = batch.batch_id
-		WHERE data_date = '2020-03-20' AND batch.daily_commit = True
-		GROUP BY state) AS latest_daily_state_batches
-	JOIN states JOIN batch ON states.batch_id = batch.batch_id
-    WHERE data_date = '2020-03-20' AND states.batch_id = latest_daily_state_batches.max_bid AND states.state = latest_daily_state_batches.state;
+	SELECT state_name, MAX(core_data.batch_id) as max_bid
+		FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+		WHERE data_date = '2020-03-20' AND batch.is_daily_commit = True AND batch.is_published = TRUE
+		GROUP BY state_name) AS latest_daily_state_batches
+	INNER JOIN core_data ON (
+		core_data.batch_id = latest_daily_state_batches.max_bid AND
+		core_data.state_name = latest_daily_state_batches.state_name)
+	INNER JOIN batch ON (core_data.batch_id = batch.batch_id)
+	WHERE data_date = '2020-03-20';
 
--- What are all states right now? For this example, let's say today's date is 2020-03-21.
-/* Get the latest data for today's date, by state. Should be: NY 190, PA 150. Resolves edit conflicts. Works for any date, including today. */
+/* What's the latest non-preview batch for each state? */
+SELECT state_name, MAX(core_data.batch_id) as max_bid
+	FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+    WHERE batch.is_published = TRUE
+    GROUP BY state_name;
+	
+/* States current: What's the latest published (non-preview) data for all states? */
 SELECT * FROM (
-	SELECT state, MAX(batch_id) as max_bid FROM states WHERE data_date='2020-03-21' GROUP BY state
-	) AS x 
-    JOIN states
-    WHERE data_date='2020-03-21' AND states.batch_id=x.max_bid AND states.state=x.state;
+	SELECT state_name, MAX(core_data.batch_id) as max_bid
+		FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+		WHERE batch.is_published = TRUE
+		GROUP BY state_name) AS latest_state_batches
+	INNER JOIN core_data ON (
+		core_data.batch_id = latest_state_batches.max_bid AND
+		core_data.state_name = latest_state_batches.state_name)
+	INNER JOIN batch ON (core_data.batch_id = batch.batch_id);
+	
+/* States daily: What's the published daily data for all states, incorporating all edits? */
+SELECT * FROM (
+	SELECT state_name, data_date, MAX(core_data.batch_id) as max_bid
+		FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+		WHERE batch.is_daily_commit = True AND batch.is_published = TRUE
+		GROUP BY state_name, data_date) AS latest_state_daily_batches
+	INNER JOIN core_data ON (
+		core_data.batch_id = latest_state_daily_batches.max_bid AND
+		core_data.state_name = latest_state_daily_batches.state_name AND
+		core_data.data_date = latest_state_daily_batches.data_date);
 
--- What is the daily commit history for state Y? For this example, say for NY. This also shows the history of edits to daily commits.
-SELECT * FROM states JOIN batch ON states.batch_id = batch.batch_id
-	WHERE batch.daily_commit = True AND states.state = 'NY';
+/* What is the daily commit history for NY? Also shows history of changes to daily commits */
+SELECT * FROM core_data JOIN batch ON core_data.batch_id = batch.batch_id
+	WHERE batch.is_daily_commit = True AND batch.is_published = TRUE AND core_data.state_name = 'NY';
+	
+/* Latest preview data? This works even if preview has been written more than once. */
+SELECT * FROM (
+	SELECT MAX(batch_id) as max_bid FROM batch WHERE batch.is_published = FALSE) AS latest_preview_batch
+	INNER JOIN core_data ON (
+		core_data.batch_id = latest_preview_batch.max_bid);
