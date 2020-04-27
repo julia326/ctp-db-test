@@ -1,13 +1,13 @@
 /* Get the most-recently-correct DAILY batch for each state, for 3/20. (Respects historical edits, takes latest batch_id) */
 SELECT state_name, MAX(core_data.batch_id) as max_bid
 	FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
-    WHERE data_date = '2020-03-20' AND batch.is_daily_commit = True AND batch.is_published = TRUE
+    WHERE data_date = '2020-03-20' AND batch.data_entry_type = 'daily_push' AND batch.is_published = TRUE
     GROUP BY state_name;
 	
 /* Get the most-recently-correct DAILY batch for each state, for all dates. (Respects historical edits, takes latest batch_id) */
 SELECT state_name, data_date, MAX(core_data.batch_id) as max_bid
 	FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
-    WHERE batch.is_daily_commit = True AND batch.is_published = TRUE
+    WHERE batch.data_entry_type = 'daily_push' AND batch.is_published = TRUE
 	GROUP BY state_name, data_date;
 
 /* Latest preview batch? */
@@ -18,7 +18,7 @@ SELECT MAX(batch_id) as max_bid FROM batch WHERE batch.is_published = FALSE;
 SELECT * FROM (
 	SELECT state_name, MAX(core_data.batch_id) as max_bid
 		FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
-		WHERE data_date = '2020-03-20' AND batch.is_daily_commit = True AND batch.is_published = TRUE
+		WHERE data_date = '2020-03-20' AND batch.data_entry_type = 'daily_push' AND batch.is_published = TRUE
 		GROUP BY state_name) AS latest_daily_state_batches
 	INNER JOIN core_data ON (
 		core_data.batch_id = latest_daily_state_batches.max_bid AND
@@ -47,7 +47,7 @@ SELECT * FROM (
 SELECT * FROM (
 	SELECT state_name, data_date, MAX(core_data.batch_id) as max_bid
 		FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
-		WHERE batch.is_daily_commit = True AND batch.is_published = TRUE
+		WHERE batch.data_entry_type = 'daily_push' AND batch.is_published = TRUE
 		GROUP BY state_name, data_date) AS latest_state_daily_batches
 	INNER JOIN core_data ON (
 		core_data.batch_id = latest_state_daily_batches.max_bid AND
@@ -56,7 +56,7 @@ SELECT * FROM (
 
 /* What is the daily commit history for NY? Also shows history of changes to daily commits */
 SELECT * FROM core_data JOIN batch ON core_data.batch_id = batch.batch_id
-	WHERE batch.is_daily_commit = True AND batch.is_published = TRUE AND core_data.state_name = 'NY';
+	WHERE batch.data_entry_type = 'daily_push' AND batch.is_published = TRUE AND core_data.state_name = 'NY';
 	
 /* Latest preview data? This works even if preview has been written more than once. */
 SELECT * FROM (

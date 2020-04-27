@@ -12,8 +12,8 @@ DECLARE last_batch_id BIGINT;
 BEGIN
 	/* This returns the batch ID, can be used in other inserts. */
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-20 10:00:00', 'JK', '3/20 morning', TRUE, FALSE, FALSE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-20 10:00:00', 'JK', '3/20 morning', TRUE, FALSE, 'push')
 		RETURNING batch_id INTO last_batch_id;
 	/* Insert some data for this batch */
 	INSERT INTO core_data 
@@ -29,8 +29,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-20 15:00:00', 'JK', '3/20 afternoon, daily', TRUE, FALSE, TRUE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-20 15:00:00', 'JK', '3/20 afternoon, daily', TRUE, FALSE, 'daily_push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data 
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
@@ -45,8 +45,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-20 20:00:00', 'JK', '3/20 night', TRUE, FALSE, FALSE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-20 20:00:00', 'JK', '3/20 night', TRUE, FALSE, 'push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data 
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
@@ -61,8 +61,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-21 08:00:00', 'JK', 'Missed 5 tests in NY on 3/20', TRUE, TRUE, TRUE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-21 08:00:00', 'JK', 'Missed 5 tests in NY on 3/20', TRUE, TRUE, 'daily_push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
@@ -74,8 +74,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-21 10:00:00', 'JK', '3/21 morning', TRUE, FALSE, FALSE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-21 10:00:00', 'JK', '3/21 morning', TRUE, FALSE, 'push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data 
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
@@ -90,8 +90,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-21 15:00:00', 'JK', '3/21 afternoon, daily', TRUE, FALSE, TRUE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-21 15:00:00', 'JK', '3/21 afternoon, daily', TRUE, FALSE, 'daily_push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data 
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
@@ -106,8 +106,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-21 20:00:00', 'JK', '3/21 night', FALSE, FALSE, FALSE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-21 20:00:00', 'JK', '3/21 night', FALSE, FALSE, 'push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data 
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
@@ -122,8 +122,8 @@ DO $$
 DECLARE last_batch_id BIGINT;
 BEGIN
 	INSERT INTO batch
-		(created_at, shift_lead, batch_note, is_published, is_revision, is_daily_commit) VALUES
-		('2020-03-21 20:05:00', 'JK', '3/21 night', FALSE, FALSE, FALSE)
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-21 20:05:00', 'JK', '3/21 night', FALSE, FALSE, 'push')
 		RETURNING batch_id INTO last_batch_id;
 	INSERT INTO core_data 
 		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES

@@ -14,7 +14,7 @@ CREATE TABLE batch (
     published_at TIMESTAMPTZ,
     shift_lead VARCHAR(100),
     batch_note VARCHAR,
-    is_daily_commit BOOLEAN NOT NULL,
+    data_entry_type VARCHAR(100) NOT NULL,
     is_published BOOLEAN NOT NULL,  -- false if preview state, true if live
     is_revision BOOLEAN NOT NULL
 );
