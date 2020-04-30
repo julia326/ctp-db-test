@@ -32,6 +32,8 @@ SELECT state_name, MAX(core_data.batch_id) as max_bid
     WHERE batch.is_published = TRUE
     GROUP BY state_name;
 	
+SELECT MAX(data_date) FROM core_data;
+	
 /* States current: What's the latest published (non-preview) data for all states?
 As written, this assumes that the latest date published for any state is the most recent for all states.
 */
