@@ -133,4 +133,17 @@ BEGIN
 		('NY', '2020-03-21 17:00:00', '2020-03-21 17:56:00', '2020-03-21', 210, 'JK', 'NY afternoon', last_batch_id);
 END $$;
 
+/* Revise data from the 20th. This will cause issues with naive queries that just get the most recent batchid */
+DO $$
+DECLARE last_batch_id BIGINT;
+BEGIN
+	INSERT INTO batch
+		(created_at, shift_lead, batch_note, is_published, is_revision, data_entry_type) VALUES
+		('2020-03-21 20:05:00', 'AS', '3/20 night', TRUE, TRUE, 'push')
+		RETURNING batch_id INTO last_batch_id;
+	INSERT INTO core_data 
+		(state_name, last_update_time, last_check_time, data_date, tests, checker, public_notes, batch_id) VALUES
+		('PA', '2020-03-21 17:00:00', '2020-03-21 17:55:00', '2020-03-20', 167, 'AS', 'PA afternoon', last_batch_id);
+END $$;
+
 SELECT * FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id;
