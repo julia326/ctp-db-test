@@ -32,11 +32,14 @@ SELECT state_name, MAX(core_data.batch_id) as max_bid
     WHERE batch.is_published = TRUE
     GROUP BY state_name;
 	
-/* States current: What's the latest published (non-preview) data for all states? */
+/* States current: What's the latest published (non-preview) data for all states?
+As written, this assumes that the latest date published for any state is the most recent for all states.
+*/
+WITH temp (latest_date) AS (SELECT MAX(data_date) FROM core_data)
 SELECT * FROM (
 	SELECT state_name, MAX(core_data.batch_id) as max_bid
-		FROM core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
-		WHERE batch.is_published = TRUE
+		FROM temp,core_data INNER JOIN batch ON core_data.batch_id = batch.batch_id
+		WHERE batch.is_published = TRUE AND core_data.data_date = temp.latest_date
 		GROUP BY state_name) AS latest_state_batches
 	INNER JOIN core_data ON (
 		core_data.batch_id = latest_state_batches.max_bid AND
