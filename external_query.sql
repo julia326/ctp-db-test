@@ -47,6 +47,9 @@ SELECT * FROM (
 		core_data.batch_id = latest_state_batches.max_bid AND
 		core_data.state_name = latest_state_batches.state_name)
 	INNER JOIN batch ON (core_data.batch_id = batch.batch_id);
+
+/* States current/on a date using materialized view */
+SELECT * FROM daily_core_data WHERE data_date = '2020-03-20';
 	
 /* States daily: What's the published daily data for all states, incorporating all edits? */
 SELECT * FROM (

@@ -34,3 +34,7 @@ CREATE TABLE core_data (
      batch_id INT REFERENCES batch(batch_id)
      -- should have a primary key on what? (geography_id, batch_id) ?
 );
+
+CREATE MATERIALIZED VIEW daily_core_data AS
+SELECT core_data.* FROM (SELECT state_name, MAX(batch_id) as max_bid FROM core_data GROUP BY state_name,data_date)
+AS x JOIN core_data ON batch_id=x.max_bid AND core_data.state_name=x.state_name;
